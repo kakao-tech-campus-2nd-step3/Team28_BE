@@ -1,8 +1,12 @@
 package com.devcard.devcard.card.service;
 
+import com.devcard.devcard.card.dto.CardRequestDto;
+import com.devcard.devcard.card.dto.CardResponseDto;
+import com.devcard.devcard.card.exception.CardNotFoundException;
 import com.devcard.devcard.card.repository.CardRepository;
-import com.devcard.devcard.card.model.Card;
+import com.devcard.devcard.card.entity.Card;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CardService {
@@ -13,28 +17,42 @@ public class CardService {
         this.cardRepository = cardRepository;
     }
 
-    public void createCard(Card card) {
-        cardRepository.save(card);
+    @Transactional
+    public CardResponseDto createCard(CardRequestDto cardRequestDto) {
+        Card card = new Card.Builder()
+                .name(cardRequestDto.getName())
+                .company(cardRequestDto.getCompany())
+                .position(cardRequestDto.getPosition())
+                .email(cardRequestDto.getEmail())
+                .phone(cardRequestDto.getPhone())
+                .build();
+
+        Card savedCard = cardRepository.save(card);
+        return CardResponseDto.fromEntity(savedCard);
     }
 
-    public Card getCard(Long cardId) {
-        return cardRepository.findById(cardId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 명함을 찾을 수 없습니다."));
+    @Transactional(readOnly = true)
+    public CardResponseDto getCard(Long cardId) {
+        Card card = cardRepository.findById(cardId)
+                .orElseThrow(() -> new CardNotFoundException("해당 명함을 찾을 수 없습니다."));
+        return CardResponseDto.fromEntity(card);
     }
 
-    public Card updateCard(Long id, Card updatedCard) {
+    @Transactional
+    public CardResponseDto updateCard(Long id, CardRequestDto cardRequestDto) {
         Card existingCard = cardRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 명함을 찾을 수 없습니다."));
+                .orElseThrow(() -> new CardNotFoundException("해당 명함을 찾을 수 없습니다."));
 
-        existingCard.update(updatedCard);
-        return cardRepository.save(existingCard);
+        existingCard.updateFromDto(cardRequestDto);
+        cardRepository.save(existingCard);
+        return CardResponseDto.fromEntity(existingCard);
     }
 
+    @Transactional
     public void deleteCard(Long id) {
-        if (!cardRepository.existsById(id)) {
-            throw new IllegalArgumentException("해당 명함을 찾을 수 없습니다.");
-        }
-        cardRepository.deleteById(id);
+        Card card = cardRepository.findById(id)
+                .orElseThrow(() -> new CardNotFoundException("해당 명함을 찾을 수 없습니다."));
+        cardRepository.delete(card);
     }
 
 

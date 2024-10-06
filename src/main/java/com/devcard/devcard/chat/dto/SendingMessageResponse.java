@@ -3,6 +3,7 @@ package com.devcard.devcard.chat.dto;
 import java.time.LocalDateTime;
 
 public class SendingMessageResponse {
+
     private String message_id;
     private LocalDateTime send_at;
 

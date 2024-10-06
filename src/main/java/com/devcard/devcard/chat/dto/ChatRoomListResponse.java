@@ -4,13 +4,16 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class ChatRoomListResponse {
+
     private String id;
     private List<String> participants;
     private String lastMessage;
     private LocalDateTime lastMessageTime;
 
-    public ChatRoomListResponse(long id, List<String> participants, String lastMessage,
-        LocalDateTime lastMessageTime) {
+    public ChatRoomListResponse(
+        long id, List<String> participants, String lastMessage,
+        LocalDateTime lastMessageTime
+    ) {
         this.id = "msg_" + id;
         this.participants = participants;
         this.lastMessage = lastMessage;
@@ -34,7 +37,7 @@ public class ChatRoomListResponse {
     }
 
     public void setId(long id) {
-        this.id = "msg_"+id;
+        this.id = "msg_" + id;
     }
 
     public void setParticipants(List<String> participants) {

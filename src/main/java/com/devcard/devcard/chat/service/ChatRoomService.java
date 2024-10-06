@@ -5,14 +5,14 @@ import static com.devcard.devcard.chat.util.Constants.CHAT_ROOM_NOT_FOUND;
 import com.devcard.devcard.chat.dto.ChatMessageResponse;
 import com.devcard.devcard.chat.dto.ChatRoomListResponse;
 import com.devcard.devcard.chat.dto.ChatRoomResponse;
-import com.devcard.devcard.chat.exception.room.ChatRoomNotFoundException;
 import com.devcard.devcard.chat.dto.CreateRoomRequest;
 import com.devcard.devcard.chat.dto.CreateRoomResponse;
 import com.devcard.devcard.chat.dto.SendingMessageRequest;
 import com.devcard.devcard.chat.dto.SendingMessageResponse;
-import com.devcard.devcard.chat.model.ChatUser;
+import com.devcard.devcard.chat.exception.room.ChatRoomNotFoundException;
 import com.devcard.devcard.chat.model.ChatMessage;
 import com.devcard.devcard.chat.model.ChatRoom;
+import com.devcard.devcard.chat.model.ChatUser;
 import com.devcard.devcard.chat.repository.ChatMessageRepository;
 import com.devcard.devcard.chat.repository.ChatRoomRepository;
 import com.devcard.devcard.chat.repository.ChatUserRepository;
@@ -30,14 +30,18 @@ public class ChatRoomService {
     private final ChatMessageRepository chatMessageRepository;
     private final ChatUserRepository chatUserRepository;
 
-    public ChatRoomService(ChatRoomRepository chatRoomRepository, ChatMessageRepository chatMessageRepository, ChatUserRepository chatUserRepository) {
+    public ChatRoomService(
+        ChatRoomRepository chatRoomRepository,
+        ChatMessageRepository chatMessageRepository,
+        ChatUserRepository chatUserRepository
+    ) {
         this.chatRoomRepository = chatRoomRepository;
         this.chatMessageRepository = chatMessageRepository;
         this.chatUserRepository = chatUserRepository;
     }
 
     // 채팅방 생성
-    public CreateRoomResponse createChatRoom(CreateRoomRequest createRoomRequest){
+    public CreateRoomResponse createChatRoom(CreateRoomRequest createRoomRequest) {
         // jpa를 이용해 ChatUser 리스트 가져오기
         List<ChatUser> participants = chatUserRepository.findByIdIn(createRoomRequest.getParticipantsId());
         ChatRoom chatRoom = new ChatRoom(participants, LocalDateTime.now()); // chatRoom생성
@@ -46,13 +50,13 @@ public class ChatRoomService {
     }
 
     // 1. 메세지 보내기
-    public SendingMessageResponse sendMessage(SendingMessageRequest sendingMessageRequest){
+    public SendingMessageResponse sendMessage(SendingMessageRequest sendingMessageRequest) {
         // 메세지 전송 로직( jpa, h2-db, 소켓 등...)
         return new SendingMessageResponse(123L, LocalDateTime.now());
     }
 
     // 2. 전체 채팅방 목록 조회
-    public List<ChatRoomListResponse> getChatRoomList(){
+    public List<ChatRoomListResponse> getChatRoomList() {
         // 채팅방 목록을 가져와 알맞는 Response 변경 후 리턴
         return chatRoomRepository.findAll().stream().map(chatRoom -> new ChatRoomListResponse(
             chatRoom.getId(),
@@ -114,7 +118,11 @@ public class ChatRoomService {
     }
 
     // CreateChatRoomResponse를 만드는 메소드
-    public CreateRoomResponse makeCreateChatRoomResponse(ChatRoom chatRoom){
-        return new CreateRoomResponse("chat_"+chatRoom.getId(), chatRoom.getParticipantsName(), chatRoom.getCreatedAt());
+    public CreateRoomResponse makeCreateChatRoomResponse(ChatRoom chatRoom) {
+        return new CreateRoomResponse(
+            "chat_" + chatRoom.getId(),
+            chatRoom.getParticipantsName(),
+            chatRoom.getCreatedAt()
+        );
     }
 }

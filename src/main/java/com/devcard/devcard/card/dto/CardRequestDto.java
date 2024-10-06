@@ -1,6 +1,5 @@
 package com.devcard.devcard.card.dto;
 
-import com.devcard.devcard.card.model.Card;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -18,7 +17,7 @@ public class CardRequestDto {
     @Email(message = "유효한 이메일 주소를 입력하세요.")
     private final String email;
 
-    @Pattern(regexp = "\\d{3}-\\d{3,4}-\\d{4}", message = "유효한 전화번호 형식을 입력하세요.")
+    @Pattern(regexp = "^[+]?[0-9\\-\\s]+$", message = "유효한 전화번호 형식을 입력하세요.")
     private final String phone;
 
     public CardRequestDto(String name, String company, String position, String email, String phone) {
@@ -35,7 +34,4 @@ public class CardRequestDto {
     public String getEmail() { return email; }
     public String getPhone() { return phone; }
 
-    public Card toEntity() {
-        return new Card(name, company, email, position, phone);
-    }
 }
