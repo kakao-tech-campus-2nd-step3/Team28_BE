@@ -5,6 +5,7 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
@@ -18,8 +19,12 @@ public class QrServiceImpl implements QrService{
 
     private static final int QR_SIZE_WIDTH = 200;
     private static final int QR_SIZE_HEIGHT = 200;
-    private static final String DOMAIN_URI = "http://localhost:8080/";
-    private final String QR_CODE_DIRECTORY = "src/main/resources/static/qrcodes/";
+
+    @Value("${qr.domain.uri}")
+    private String domainUri;
+
+    @Value("${qr.code.directory}")
+    private String qrCodeDirectory;
 
     /**
      * @param cardId QR로 만들 명함 ID
@@ -29,23 +34,48 @@ public class QrServiceImpl implements QrService{
     public String createQr(Long cardId) throws WriterException, IOException {
 
         // QR URL - QR 코드 정보 URL
-        String url = DOMAIN_URI + "cards/" + cardId;
+        String url = generateQrUrl(cardId);
 
         // QR Code - BitMatrix: qr code 정보 생성
-        BitMatrix bitMatrix = new MultiFormatWriter().encode(url, BarcodeFormat.QR_CODE, QR_SIZE_WIDTH, QR_SIZE_HEIGHT);
+        BitMatrix bitMatrix = generateQrCode(url);
 
         // Setting QR Image File Name, Path
-        String qrFileName = "card_id_" + cardId + ".png";
-        Path qrPath = Paths.get(QR_CODE_DIRECTORY + qrFileName);
+        String qrFileName = generateQrFileName(cardId);
+        Path qrPath = generateQrFilePath(qrFileName);
 
         // Save QR
-        try (ByteArrayOutputStream out = new ByteArrayOutputStream();)
-        {
-            MatrixToImageWriter.writeToStream(bitMatrix, "png", out);
-            Files.createDirectories(qrPath.getParent()); // 디렉토리 없는 경우 생성
-            Files.write(qrPath, out.toByteArray());
-        }
+        saveQrCodeImage(bitMatrix, qrPath);
 
-        return DOMAIN_URI + "qrcodes/" + qrFileName;
+        return domainUri + "qrcodes/" + qrFileName;
+    }
+
+    private String generateQrUrl(Long cardId) {
+        return domainUri + "cards/" + cardId;
+    }
+
+    private BitMatrix generateQrCode(String url) throws WriterException {
+        try {
+            return new MultiFormatWriter().encode(url, BarcodeFormat.QR_CODE, QR_SIZE_WIDTH, QR_SIZE_HEIGHT);
+        } catch (WriterException e) {
+            throw e;
+        }
+    }
+
+    private String generateQrFileName(Long cardId) {
+        return "card_id_" + cardId + ".png";
+    }
+
+    private Path generateQrFilePath(String qrFileName) {
+        return Paths.get(qrCodeDirectory + qrFileName);
+    }
+
+    private void saveQrCodeImage(BitMatrix bitMatrix, Path qrPath) throws IOException {
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+            MatrixToImageWriter.writeToStream(bitMatrix, "png", out);
+            Files.createDirectories(qrPath.getParent());
+            Files.write(qrPath, out.toByteArray());
+        } catch (IOException e) {
+            throw e;
+        }
     }
 }

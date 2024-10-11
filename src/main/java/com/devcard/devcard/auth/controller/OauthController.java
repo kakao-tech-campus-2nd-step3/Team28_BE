@@ -21,7 +21,7 @@ public class OauthController {
         String githubId = requestData.get("github_id");
 
         // GitHub ID로 사용자를 찾아서 등록 여부 확인
-        Member member = memberRepository.findByNickname(githubId);
+        Member member = memberRepository.findByGithubId(githubId);
         boolean isRegistered = (member != null);
 
         Map<String, Object> response = new HashMap<>();

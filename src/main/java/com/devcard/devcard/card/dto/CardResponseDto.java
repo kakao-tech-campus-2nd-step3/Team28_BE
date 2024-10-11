@@ -1,6 +1,6 @@
 package com.devcard.devcard.card.dto;
 
-import com.devcard.devcard.card.model.Card;
+import com.devcard.devcard.card.entity.Card;
 
 import java.time.LocalDateTime;
 

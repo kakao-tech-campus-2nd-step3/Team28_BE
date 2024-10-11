@@ -1,6 +1,7 @@
 package com.devcard.devcard.chat.dto;
 
 public class SendingMessageRequest {
+
     private Long chatId;
     private String message;
 

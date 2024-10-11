@@ -1,0 +1,90 @@
+/* General styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5f5f5;
+}
+
+/* Container for the login card */
+.login-container {
+    text-align: center;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    width: 320px;
+}
+
+/* Circle logo */
+.logo-circle {
+    width: 80px;
+    height: 80px;
+    background-color: #4285f4;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.logo-letter {
+    color: white;
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.app-name {
+    margin-top: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* GitHub login button */
+.github-login-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 12px 20px;
+    font-size: 16px;
+    margin: 20px auto;
+    cursor: pointer;
+    width: 100%;
+    max-width: 280px;
+    transition: background-color 0.3s;
+}
+
+.github-login-btn:hover {
+    background-color: #333;
+}
+
+.github-login-btn img {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+}
+
+/* Terms and conditions */
+.terms {
+    font-size: 12px;
+    color: #666;
+    margin-top: 20px;
+}
+
+.terms a {
+    color: #4285f4;
+    text-decoration: none;
+}

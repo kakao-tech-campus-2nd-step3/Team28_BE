@@ -14,7 +14,7 @@ public class Member {
     @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private String githubId;
     private String email;
     private String profileImg;
     private String username;
@@ -27,7 +27,8 @@ public class Member {
     public Member() {
     }
 
-    public Member(String email, String profileImg, String username, String nickname, String role, Timestamp createDate) {
+    public Member(String githubId, String email, String profileImg, String username, String nickname, String role, Timestamp createDate) {
+        this.githubId = githubId;
         this.email = email;
         this.profileImg = profileImg;
         this.username = username;
@@ -38,6 +39,10 @@ public class Member {
 
     public Long getId() {
         return id;
+    }
+
+    public String getGithubId() {
+        return githubId;
     }
 
     public String getEmail() {
@@ -64,5 +69,4 @@ public class Member {
         return createDate;
     }
 }
-
 
