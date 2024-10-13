@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>명함 상세 정보</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+
+    <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        Kakao.init('YOUR_JAVASCRIPT_KEY'); //Todo: 발급받은 키로 변경
+        /*]]>*/
+    </script>
+</head>
+<body>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>
