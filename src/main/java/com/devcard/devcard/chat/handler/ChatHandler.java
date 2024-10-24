@@ -1,5 +1,6 @@
 package com.devcard.devcard.chat.handler;
 
+import com.devcard.devcard.chat.dto.CreateRoomRequest;
 import com.devcard.devcard.chat.service.ChatRoomService;
 import com.devcard.devcard.chat.service.ChatService;
 import java.io.IOException;
@@ -64,10 +65,19 @@ public class ChatHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
         String chatId = chatService.extractChatIdFromSession(session);
-        // 채팅방 존재 여부 확인
-        if (!chatRoomService.existsChatRoom(chatId)) {// 채팅방이 존재 하지 않을 시 DB에 채팅방 생성
-            // chatRoomService.createChatRoom(new CreateRoomRequest(chatId)); => 어떻게 참여자 id를 가져와 추가할 것인지 생각후
+        String userId = chatService.extractUserIdFromSession(session);
+
+        // 채팅방 존재 여부 확인 ( ## 검토 필요 )
+        if (!chatRoomService.existsChatRoom(chatId)) {
+            // 참여자 ID 리스트를 CreateRoomRequest에 추가
+            List<Long> participantsId = List.of(Long.parseLong(userId)); // userId를 Long 타입으로 변환하여 리스트로 추가
+            CreateRoomRequest createRoomRequest = new CreateRoomRequest();
+            createRoomRequest.setParticipantsId(participantsId);
+
+            // 새로운 채팅방 생성
+            chatRoomService.createChatRoom(createRoomRequest);
         }
+
         // 세션 추가
         chatService.addSessionToChatRoom(chatId, session);
     }

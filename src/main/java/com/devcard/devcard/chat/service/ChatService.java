@@ -132,4 +132,24 @@ public class ChatService {
             return null;
         }
     }
+
+    public String extractUserIdFromSession(WebSocketSession session) {
+        String uri = session.getUri().toString();
+        return extractUserIdFromUri(uri);
+    }
+
+    private String extractUserIdFromUri(String uri) {
+        try {
+            return Stream
+                .of(new URI(uri).getQuery().split("&")) // 쿼리 문자열에서 &로 분리
+                .map(param -> param.split("=")) // =으로 key-value 분리
+                .filter(values -> values.length == 2 && "userId".equals(values[0])) // userId 필터링
+                .map(pair -> pair[1]) // userId 값 추출
+                .findFirst() // 첫 번째 값 반환
+                .orElse(null); // 없으면 null 반환
+        } catch (URISyntaxException e) {
+            e.printStackTrace(); // 예외 처리
+            return null;
+        }
+    }
 }
