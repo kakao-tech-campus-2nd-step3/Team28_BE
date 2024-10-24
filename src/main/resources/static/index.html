@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFC Card Sharing</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<h1>NFC 태깅으로 명함 전송 및 수신</h1>
+<button id="send-button">Send My Card</button>
+
+<button id ="receive-button">Receive Card</button>
+
+<div id="loading" style="display:none;">Loading...</div>
+<div id="card-display"></div>
+
+<script src="/js/nfc.js"></script>
+<script>
+    // 페이지 로드 시 NFC 기능 체크 및 수신 자동 시작
+    window.onload = function() {
+        let nfcSupportMessage = "";
+
+        // NDEFWriter 지원 여부 확인
+        if ("NDEFWriter" in window) {
+            nfcSupportMessage += "NDEF Writer 지원됨. ";
+        } else {
+            nfcSupportMessage += "NDEF Writer 지원되지 않음. ";
+        }
+
+        // NDEFReader 지원 여부 확인
+        if ("NDEFReader" in window) {
+            nfcSupportMessage += "NDEF Reader 지원됨.";
+        } else {
+            nfcSupportMessage += "NDEF Reader 지원되지 않음.";
+        }
+
+        alert("*" + nfcSupportMessage);
+
+    };
+
+    // NFC 전송 버튼
+    const sendButton = document.getElementById('send-button');
+    sendButton.addEventListener('click', () => {
+        showLoading();
+        sendCardViaNFC().finally(hideLoading);
+    });
+
+    const receiveButton = document.getElementById('receive-button');
+    receiveButton.addEventListener('click', () => {
+        readNFCAndOpenURL();
+    })
+
+    // 로딩 뜨는 함수
+    function showLoading() {
+        document.getElementById('loading').style.display = 'block';
+    }
+
+    // 로딩 제거 함수
+    function hideLoading() {
+        document.getElementById('loading').style.display = 'none';
+    }
+</script>
+</body>
+</html>
