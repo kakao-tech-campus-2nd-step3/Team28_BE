@@ -10,7 +10,7 @@
     <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
     <script th:inline="javascript">
         /*<![CDATA[*/
-        Kakao.init('YOUR_JAVASCRIPT_KEY'); //Todo: 발급받은 키로 변경
+        Kakao.init('[[${kakaoJavascriptKey}]]');
         /*]]>*/
     </script>
 </head>
