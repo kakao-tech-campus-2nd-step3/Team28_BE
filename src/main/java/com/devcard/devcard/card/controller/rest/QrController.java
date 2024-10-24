@@ -1,4 +1,4 @@
-package com.devcard.devcard.card.controller;
+package com.devcard.devcard.card.controller.rest;
 
 import com.devcard.devcard.card.dto.QrResponseDto;
 import com.devcard.devcard.card.service.QrServiceImpl;
