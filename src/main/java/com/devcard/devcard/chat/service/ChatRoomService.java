@@ -20,6 +20,10 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * 채팅방과 관련된 로직을 처리
+ * 채팅방 생성, 조회, 삭제 로직
+ */
 @Service
 @Transactional
 public class ChatRoomService {
@@ -38,7 +42,11 @@ public class ChatRoomService {
         this.chatUserRepository = chatUserRepository;
     }
 
-    // 채팅방 생성
+    /**
+     * 새로운 채팅방 생성
+     * @param createRoomRequest 채팅방 생성 요청 객체
+     * @return 생성된 채팅방 정보
+     */
     public CreateRoomResponse createChatRoom(CreateRoomRequest createRoomRequest) {
         // jpa를 이용해 ChatUser 리스트 가져오기
         List<ChatUser> participants = chatUserRepository.findByIdIn(createRoomRequest.getParticipantsId());
@@ -48,7 +56,10 @@ public class ChatRoomService {
     }
 
 
-    // 전체 채팅방 목록 조회
+    /**
+     * 모든 채팅방 목록 조회
+     * @return 전체 채팅방 목록
+     */
     public List<ChatRoomListResponse> getChatRoomList() {
         // 채팅방 목록을 가져와 알맞는 Response 변경 후 리턴
         return chatRoomRepository.findAll().stream().map(chatRoom -> new ChatRoomListResponse(
@@ -59,7 +70,11 @@ public class ChatRoomService {
         )).toList();
     }
 
-    // 특정 채팅방 조회
+    /**
+     * 특정 채팅방의 세부 정보 조회
+     * @param chatId 채팅방 ID
+     * @return 채팅방 세부 정보
+     */
     @Transactional(readOnly = true)
     public ChatRoomResponse getChatRoomById(String chatId) {
         Long chatRoomId = extractChatRoomId(chatId);
@@ -90,7 +105,10 @@ public class ChatRoomService {
         );
     }
 
-    // 채팅방 삭제
+    /**
+     * 채팅방 삭제
+     * @param chatId 채팅방 ID
+     */
     public void deleteChatRoom(String chatId) {
         Long chatRoomId = extractChatRoomId(chatId);
 
@@ -105,16 +123,29 @@ public class ChatRoomService {
         chatRoomRepository.deleteById(chatRoomId);
     }
 
+    /**
+     * 특정 채팅방이 존재하는지 확인
+     * @param chatId 채팅방 ID
+     * @return 존재 여부
+     */
     public boolean existsChatRoom(String chatId) {
         return chatRoomRepository.existsById(Long.parseLong(chatId)); // Long으로 변환=> 올바른 로직인가
     }
 
-    // chatId 에서 숫자만 추출하는 메서드
+    /**
+     * chatId에서 숫자 부분만 추출
+     * @param chatId 채팅방 ID
+     * @return 추출된 숫자 ID
+     */
     private Long extractChatRoomId(String chatId) {
         return Long.parseLong(chatId.replace("chat_", ""));
     }
 
-    // CreateChatRoomResponse를 만드는 메소드
+    /**
+     * 생성된 채팅방 정보를 응답 객체로 변환
+     * @param chatRoom 생성된 채팅방
+     * @return 채팅방 생성 응답 객체
+     */
     public CreateRoomResponse makeCreateChatRoomResponse(ChatRoom chatRoom) {
         return new CreateRoomResponse(
             "chat_" + chatRoom.getId(),

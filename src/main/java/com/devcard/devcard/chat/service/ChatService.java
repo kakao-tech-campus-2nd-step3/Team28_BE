@@ -18,6 +18,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.socket.WebSocketSession;
 
+/**
+ * 실시간 채팅 관련 로직을 처리
+ * 사용자가 채팅방에 참여하는 로직
+ * 메시지를 주고받는 로직
+ */
 @Service
 @Transactional
 public class ChatService {
@@ -31,24 +36,40 @@ public class ChatService {
         this.chatRepository = chatRepository;
     }
 
-    // 메세지 보내기
+    /**
+     * 메시지를 전송
+     * @param sendingMessageRequest 전송하려는 메시지 정보를 담은 요청 객체
+     * @return 전송된 메시지 정보와 타임스탬프를 포함하는 응답 객체
+     */
     public SendingMessageResponse sendMessage(SendingMessageRequest sendingMessageRequest) {
         // 메세지 전송 로직( jpa, h2-db, 소켓 등...)
         return new SendingMessageResponse(123L, LocalDateTime.now());
     }
 
-    // chatId에 해당되는 값이 있으면 해당값에 추가 없으면 생성 후 추가
+    /**
+     * 특정 채팅방에 WebSocketSession 추가
+     * @param chatId 채팅방 ID
+     * @param session 추가할 WebSocketSession
+     */
     public void addSessionToChatRoom(String chatId, WebSocketSession session) {
         // computIfAbsent메소드: 키값이 없으면 해당되는 키값으로 생성 해 리턴, 있다면 해당 값 리턴
         chatRoomSessions.computeIfAbsent(chatId, k -> new CopyOnWriteArrayList<>()).add(session);
     }
 
-    // 해당되는 세션 리스트 리턴
+    /**
+     * 특정 채팅방에 연결된 모든 WebSocketSession 리스트 반환
+     * @param chatId 채팅방 ID
+     * @return 해당 채팅방에 연결된 세션 목록
+     */
     public List<WebSocketSession> getChatRoomSessions(String chatId) {
         return chatRoomSessions.get(chatId);
     }
 
-
+    /**
+     * 메시지 payload에서 chatId 추출
+     * @param payload 메시지의 payload
+     * @return 추출된 chatId 값 (존재하지 않으면 null 반환)
+     */
     public String extractChatId(String payload) {
         JSONParser parser = new JSONParser();
         try {
@@ -60,7 +81,11 @@ public class ChatService {
         }
     }
 
-    // 메세지 payload로 부터 message 추출하는 메소드
+    /**
+     * 메시지 payload에서 message 값 추출
+     * @param payload 메시지의 payload
+     * @return 추출된 메시지 내용 (존재하지 않으면 null 반환)
+     */
     public String extractMessage(String payload) {
         JSONParser parser = new JSONParser();
         try {
@@ -72,13 +97,21 @@ public class ChatService {
         }
     }
 
-    // 세션으로 부터 chatId 추출
+    /**
+     * WebSocketSession에서 chatId를 추출
+     * @param session WebSocketSession 객체
+     * @return 추출된 chatId 값
+     */
     public String extractChatIdFromSession(WebSocketSession session) {
         String uri = session.getUri().toString();
         return extractChatIdFromUri(uri);
     }
 
-    // uri 로부터 전달된 chatId 추출
+    /**
+     * URI에서 chatId를 추출
+     * @param uri WebSocket URI
+     * @return URI에 포함된 chatId 값 (존재하지 않으면 null 반환)
+     */
     private String extractChatIdFromUri(String uri) {
         // uir가 ws://localhost:8080/ws?chatId=12345&userId=67890로 요청이 들어온다면
         try {
