@@ -2,20 +2,62 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>명함 상세 정보</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <title>[[${card.name}]]님의 명함</title>
+    <!-- CSS 파일 로드 -->
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 
+    <!-- 카카오 JavaScript SDK 로드 -->
     <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
     <script th:inline="javascript">
         /*<![CDATA[*/
-        Kakao.init('YOUR_JAVASCRIPT_KEY'); //Todo: 발급받은 키로 변경
+        Kakao.cleanup();
+        Kakao.init('[[${kakaoJavascriptKey}]]');
         /*]]>*/
     </script>
 </head>
 <body>
+<div class="card">
+    <h2>[[${card.name}]]</h2>
+    <p>회사: [[${card.company}]]</p>
+    <p>직책: [[${card.position}]]</p>
+    <p>전화번호: [[${card.phone}]]</p>
+    <p>이메일: [[${card.email}]]</p>
+    <p>GitHub: <a th:href="'https://github.com/' + ${card.githubId}" target="_blank">[[${card.githubId}]]</a></p>
+    <p>소개: [[${card.bio}]]</p>
+</div>
 
-<script th:src="@{/js/main.js}"></script>
+<button id="kakao-share-btn">카카오톡으로 공유하기</button>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    document.getElementById('kakao-share-btn').addEventListener('click', function () {
+        Kakao.Link.sendDefault({
+            objectType: 'feed',
+            content: {
+                title: '[[${card.name}]]님의 명함',
+                description: '회사: [[${card.company}]], 직책: [[${card.position}]]',
+                imageUrl: 'https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png',
+                link: {
+                    mobileWebUrl: 'http://localhost:8080/cards/[[${card.id}]]/view',
+                    webUrl: 'http://localhost:8080/cards/[[${card.id}]]/view'
+                }
+            },
+            buttons: [
+                {
+                    title: '명함 보기',
+                    link: {
+                        mobileWebUrl: 'http://localhost:8080/cards/[[${card.id}]]/view',
+                        webUrl: 'http://localhost:8080/cards/[[${card.id}]]/view'
+                    }
+                }
+            ],
+            fail: function(error) {
+                console.error(error);
+                alert('카카오톡 공유에 실패했습니다.');
+            }
+        });
+    });
+    /*]]>*/
+</script>
 </body>
 </html>

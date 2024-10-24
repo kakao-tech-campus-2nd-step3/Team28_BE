@@ -41,3 +41,6 @@ out/
 
 ### github oauth client-key ###
 .env
+
+# Ignore application-secret.properties
+/src/main/resources/application-secret.properties

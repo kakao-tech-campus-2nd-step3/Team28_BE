@@ -121,6 +121,9 @@ public class Card {
         if (dto.getPosition() != null) this.position = dto.getPosition();
         if (dto.getEmail() != null) this.email = dto.getEmail();
         if (dto.getPhone() != null) this.phone = dto.getPhone();
+        if (dto.getGithubId() != null) this.githubId = dto.getGithubId();
+        if (dto.getBio() != null) this.bio = dto.getBio();
+        if (dto.getProfilePicture() != null) this.profilePicture = dto.getProfilePicture();
         this.updatedAt = LocalDateTime.now();
     }
 }
