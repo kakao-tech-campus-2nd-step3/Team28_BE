@@ -4,6 +4,8 @@ import com.devcard.devcard.chat.service.ChatRoomService;
 import com.devcard.devcard.chat.service.ChatService;
 import java.io.IOException;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -17,6 +19,8 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 @Component
 public class ChatHandler extends TextWebSocketHandler {
 
+    private static final Logger logger = LoggerFactory.getLogger(ChatHandler.class);
+
     private final ChatRoomService chatRoomService;
     private final ChatService chatService;
 
@@ -27,7 +31,7 @@ public class ChatHandler extends TextWebSocketHandler {
 
     /**
      * 클라이언트로부터 메시지를 수신했을 때 호출되는 메소드
-     * @param session WebSocketSession 객체
+     * @param session     WebSocketSession 객체
      * @param textMessage 수신한 텍스트 메시지
      */
     @Override
@@ -37,16 +41,18 @@ public class ChatHandler extends TextWebSocketHandler {
         String message = chatService.extractMessage(payload);
         List<WebSocketSession> chatRoom = chatService.getChatRoomSessions(chatId);
 
-        if (chatRoom != null) { // 채팅방이 있을 때
+        if (chatRoom != null) {
             for (WebSocketSession webSocketSession : chatRoom) { // 해당 채팅방의 모든 세션에 대해서 메세지 보내기
                 if (webSocketSession.isOpen()) { // 세션이 열려있다면
                     try {
                         webSocketSession.sendMessage(new TextMessage(message)); // 세션에 메세지 보내기
                     } catch (IOException e) { // 오류 일시적 처리
-                        // 추가적으로 로그를 남길지? 고민하기
+                        logger.error("세션에 메시지 보내기 실패: {}", webSocketSession.getId(), e);
                     }
                 }
             }
+        } else {
+            logger.warn("다음의 chatId로 채팅방 찾기 실패: {}", chatId);
         }
     }
 
@@ -69,7 +75,7 @@ public class ChatHandler extends TextWebSocketHandler {
     /**
      * WebSocket 연결이 종료되었을 때 호출
      * @param session WebSocketSession 객체
-     * @param status 연결 종료 상태
+     * @param status  연결 종료 상태
      */
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {

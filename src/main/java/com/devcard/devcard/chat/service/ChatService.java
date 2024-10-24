@@ -14,6 +14,8 @@ import java.util.stream.Stream;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.socket.WebSocketSession;
@@ -26,6 +28,8 @@ import org.springframework.web.socket.WebSocketSession;
 @Service
 @Transactional
 public class ChatService {
+
+    private static final Logger logger = LoggerFactory.getLogger(ChatService.class);
 
     // id를 통해 채팅방을 관리 및 id 와 List<WebSocketSession>을 통해 해당 채팅방의 각 세션 즉 사용자 관리 아래 세션리스트 serivice계층으로 이동
     private static final ConcurrentMap<String, List<WebSocketSession>> chatRoomSessions = new ConcurrentHashMap<>();
@@ -48,7 +52,7 @@ public class ChatService {
 
     /**
      * 특정 채팅방에 WebSocketSession 추가
-     * @param chatId 채팅방 ID
+     * @param chatId  채팅방 ID
      * @param session 추가할 WebSocketSession
      */
     public void addSessionToChatRoom(String chatId, WebSocketSession session) {
@@ -76,7 +80,7 @@ public class ChatService {
             JSONObject jsonObject = (JSONObject) parser.parse(payload);
             return jsonObject.getAsString("chatId");
         } catch (ParseException e) {
-            e.printStackTrace(); // 예외를 로깅
+            logger.error("payload에서 chatId 추출 실패: {}", payload, e);
             return null; // 예외 발생 시 null 반환
         }
     }
@@ -92,7 +96,7 @@ public class ChatService {
             JSONObject jsonObject = (JSONObject) parser.parse(payload);
             return jsonObject.getAsString("message");
         } catch (ParseException e) {
-            e.printStackTrace(); // 예외를 로깅
+            logger.error("payload에서 message 추출 실패: {}", payload, e);
             return null; // 예외 발생 시 null 반환
         }
     }
