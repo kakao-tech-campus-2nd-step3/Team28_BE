@@ -128,8 +128,8 @@ public class ChatRoomService {
      * @param chatId 채팅방 ID
      * @return 존재 여부
      */
-    public boolean existsChatRoom(String chatId) {
-        return chatRoomRepository.existsById(Long.parseLong(chatId)); // Long으로 변환=> 올바른 로직인가
+    public boolean existsChatRoom(Long chatId) {
+        return chatRoomRepository.existsById(chatId);
     }
 
     /**

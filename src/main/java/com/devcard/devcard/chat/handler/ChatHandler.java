@@ -38,7 +38,7 @@ public class ChatHandler extends TextWebSocketHandler {
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage textMessage) throws Exception {
         String payload = textMessage.getPayload();
-        String chatId = chatService.extractChatId(payload);
+        Long chatId = chatService.extractChatId(payload);
         String message = chatService.extractMessage(payload);
         List<WebSocketSession> chatRoom = chatService.getChatRoomSessions(chatId);
 
@@ -64,13 +64,13 @@ public class ChatHandler extends TextWebSocketHandler {
      */
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
-        String chatId = chatService.extractChatIdFromSession(session);
-        String userId = chatService.extractUserIdFromSession(session);
+        Long chatId = chatService.extractChatIdFromSession(session);
+        Long userId = chatService.extractUserIdFromSession(session);
 
         // 채팅방 존재 여부 확인 ( ## 검토 필요 )
         if (!chatRoomService.existsChatRoom(chatId)) {
             // 참여자 ID 리스트를 CreateRoomRequest에 추가
-            List<Long> participantsId = List.of(Long.parseLong(userId)); // userId를 Long 타입으로 변환하여 리스트로 추가
+            List<Long> participantsId = List.of(userId); // userId를 Long 타입으로 변환하여 리스트로 추가
             CreateRoomRequest createRoomRequest = new CreateRoomRequest();
             createRoomRequest.setParticipantsId(participantsId);
 
@@ -89,7 +89,7 @@ public class ChatHandler extends TextWebSocketHandler {
      */
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
-        String chatId = chatService.extractChatIdFromSession(session);
+        Long chatId = chatService.extractChatIdFromSession(session);
         List<WebSocketSession> sessions = chatService.getChatRoomSessions(chatId);
         if (sessions != null) {
             sessions.remove(session);
