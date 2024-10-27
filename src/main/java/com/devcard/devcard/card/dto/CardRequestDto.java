@@ -20,12 +20,20 @@ public class CardRequestDto {
     @Pattern(regexp = "^[+]?[0-9\\-\\s]+$", message = "유효한 전화번호 형식을 입력하세요.")
     private final String phone;
 
-    public CardRequestDto(String name, String company, String position, String email, String phone) {
+    private final String githubId;
+    private final String bio;
+    private final String profilePicture;
+
+    public CardRequestDto(String name, String company, String position, String email, String phone,
+                          String githubId, String bio, String profilePicture) {
         this.name = name;
         this.company = company;
         this.position = position;
         this.email = email;
         this.phone = phone;
+        this.githubId = githubId;
+        this.bio = bio;
+        this.profilePicture = profilePicture;
     }
 
     public String getName() { return name; }
@@ -33,5 +41,7 @@ public class CardRequestDto {
     public String getPosition() { return position; }
     public String getEmail() { return email; }
     public String getPhone() { return phone; }
-
+    public String getGithubId() { return githubId; }
+    public String getBio() { return bio; }
+    public String getProfilePicture() { return profilePicture; }
 }

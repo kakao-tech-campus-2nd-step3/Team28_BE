@@ -1,7 +1,6 @@
-package com.devcard.devcard.card.controller;
+package com.devcard.devcard.card.controller.rest;
 
 import com.devcard.devcard.card.dto.CardResponseDto;
-import com.devcard.devcard.card.entity.Card;
 import com.devcard.devcard.card.dto.CardRequestDto;
 import com.devcard.devcard.card.service.CardService;
 import jakarta.validation.Valid;

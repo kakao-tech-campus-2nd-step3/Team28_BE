@@ -30,6 +30,17 @@ public class ChatMessage {
 
     }
 
+    public ChatMessage(ChatRoom chatRoom, String sender, String content, LocalDateTime timestamp) {
+        this.chatRoom = chatRoom;
+        this.sender = sender;
+        this.content = content;
+        this.timestamp = timestamp;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
     public String getContent() {
         return content;
     }

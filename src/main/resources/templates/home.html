@@ -1,11 +1,10 @@
-<!--thymeleaf 설정 필요-->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Business Card</title>
-    <link rel="stylesheet" href="../static/styles.css">
+    <link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 <body>
 <div class="container">
@@ -21,29 +20,29 @@
             <p>Contributor to 1,100+ open-source projects</p>
         </div>
         <div class="card-image">
-<!--            <img src="person-working.png" alt="Person Working">-->
+            <img th:src="@{/images/person-working.png}" alt="Person Working">
         </div>
     </div>
 </div>
 <div class="nav-bar">
     <div class="nav-item active">
-<!--        <img src="mycard-icon.png" alt="My Card">-->
+        <img th:src="@{/images/mycard-icon.png}" alt="My Card">
         <p>MyCard</p>
     </div>
     <div class="nav-item">
-<!--        <img src="wallet-icon.png" alt="Wallet">-->
+        <img th:src="@{/images/wallet-icon.png}" alt="Wallet">
         <p>Wallet</p>
     </div>
     <div class="nav-item">
-<!--        <img src="chat-icon.png" alt="Chat">-->
+        <img th:src="@{/images/chat-icon.png}" alt="Chat">
         <p>Chats</p>
     </div>
     <div class="nav-item">
-<!--        <img src="mypage-icon.png" alt="My Page">-->
+        <img th:src="@{/images/mypage-icon.png}" alt="My Page">
         <p>MyPage</p>
     </div>
 </div>
 
-<!--<script src="script.js"></script>-->
+<script th:src="@{/script.js}"></script>
 </body>
 </html>
