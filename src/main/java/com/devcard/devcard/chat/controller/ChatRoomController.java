@@ -17,10 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 채팅방과 관련된 CRUD 기능을 관리
+ * <p></p>
  * 채팅방 생성, 목록 조회, 특정 채팅방 조회 및 삭제 기능 제공
  */
 @RestController
-@RequestMapping("/chats")
+@RequestMapping("/api/chats")
 public class ChatRoomController {
 
     private final ChatRoomService chatRoomService;
@@ -42,7 +43,7 @@ public class ChatRoomController {
 
     /**
      * 모든 채팅방 목록을 조회
-     * @return 전체 채팅방 목록을 리스트 형태 반환
+     * @return 전체 채팅방 목록을 리스트 형태로 반환
      */
     @GetMapping("")
     public ResponseEntity<List<ChatRoomListResponse>> getChatRoomList() {
@@ -50,7 +51,16 @@ public class ChatRoomController {
     }
 
     /**
-     * 특정 ID의 채팅방을 조회
+     * 특정 유저가 참여하고 있는 채팅방 목록을 조회
+     * @return 해당 채팅방 목록을 리스트 형태로 반환
+     */
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<ChatRoomListResponse>> getChatRoomsByUser(@PathVariable String userId) {
+        return ResponseEntity.ok(chatRoomService.getChatRoomsByUser(userId));
+    }
+
+    /**
+     * 특정 ID의 채팅방을 상세 조회
      * @param chatId 조회하려는 채팅방의 ID
      * @return 요청한 채팅방의 상세 정보 반환
      */
@@ -62,11 +72,11 @@ public class ChatRoomController {
     /**
      * 특정 ID의 채팅방을 삭제
      * @param chatId 삭제하려는 채팅방의 ID
-     * @return 삭제가 완료되면 상태 코드 200 반환
+     * @return 삭제가 완료되면 상태 코드 204 반환
      */
     @DeleteMapping("/{chatId}")
     public ResponseEntity<Void> deleteChatRoom(@PathVariable String chatId) {
         chatRoomService.deleteChatRoom(chatId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }

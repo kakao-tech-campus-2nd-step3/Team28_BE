@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register Redirect</title>
+    <style>
+        {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        .template-container {
+            text-align: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            width: 360px; /* 휴대폰 가로 크기 */
+            height: 640px; /* 휴대폰 세로 크기 */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+<div class="template-container">
+    <p>잠시만 기다려 주세요...</p>
+</div>
+<script>
+    fetch('/register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            window.location.href = "/home";
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            window.location.href = "/login"; // 오류 발생 시 /login으로 redirect
+        });
+</script>
+</body>
+</html>

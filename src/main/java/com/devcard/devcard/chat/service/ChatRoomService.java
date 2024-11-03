@@ -71,6 +71,24 @@ public class ChatRoomService {
     }
 
     /**
+     * 특정 유저가 참여 중인 채팅방 목록 조회
+     * @param userId 유저 ID
+     * @return 해당 유저가 참여 중인 채팅방 목록
+     */
+    @Transactional(readOnly = true)
+    public List<ChatRoomListResponse> getChatRoomsByUser(String userId) {
+        List<ChatRoom> userChatRooms = chatRoomRepository.findByParticipantId(userId);
+
+        // 각 채팅방 정보를 ChatRoomListResponse로 변환하여 반환
+        return userChatRooms.stream().map(chatRoom -> new ChatRoomListResponse(
+            chatRoom.getId(),
+            chatRoom.getParticipantsName(),
+            chatRoom.getLastMessage(),
+            chatRoom.getLastMessageTime()
+        )).collect(Collectors.toList());
+    }
+
+    /**
      * 특정 채팅방의 세부 정보 조회
      * @param chatId 채팅방 ID
      * @return 채팅방 세부 정보
@@ -99,7 +117,7 @@ public class ChatRoomService {
             .collect(Collectors.toList());
 
         return new ChatRoomResponse(
-            "chat_" + chatRoomId,
+            "room_" + chatRoomId,
             participants,
             messageResponses
         );
@@ -148,7 +166,7 @@ public class ChatRoomService {
      */
     public CreateRoomResponse makeCreateChatRoomResponse(ChatRoom chatRoom) {
         return new CreateRoomResponse(
-            "chat_" + chatRoom.getId(),
+            "room_" + chatRoom.getId(),
             chatRoom.getParticipantsName(),
             chatRoom.getCreatedAt()
         );

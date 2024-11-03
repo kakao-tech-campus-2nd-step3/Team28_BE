@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card List</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+</head>
+<body>
+<div class="container">
+    <h2 class="title">Card List</h2>
+    <div class="card-list">
+        <!-- 카드 목록을 동적으로 생성 -->
+        <div class="card" th:each="card : ${cards}">
+            <a th:href="@{/cards/{id}/view(id=${card.id})}">
+                <div class="card-content">
+                    <h3 th:text="${card.name}">Card Name</h3>
+                    <p th:text="${card.position}">Position</p>
+                    <p th:text="${card.company}">Company</p>
+                    <p>📧: <span th:text="${card.email}">Email</span></p>
+                    <p>📱: <span th:text="${card.phone}">Phone</span></p>
+                    <p>💻: GitHub: <a th:href="${'https://github.com/' + card.githubId}" target="_blank" th:text="${card.githubId}">GitHub</a></p>
+                    <p th:text="${card.bio}">Bio</p>
+                </div>
+                <div class="card-image">
+                    <img th:src="@{${card.profilePicture}}" alt="Profile Picture">
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div th:replace="nav-bar :: navBar"></div>
+
+</body>
+</html>

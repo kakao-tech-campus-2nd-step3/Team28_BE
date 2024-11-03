@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내 명함 미리보기</title>
+    <link rel="stylesheet" th:href="@{/css/updateCard.css}">
+</head>
+<body>
+<div class="container">
+    <h2 class="title">내 명함 미리보기</h2>
+    <div class="card-preview">
+        <img th:src="@{/images/card-preview.png}" alt="Card Preview">
+    </div>
+
+    <form class="update-card-form" th:action="@{/cards/{id}/update}" th:object="${card}" method="post">
+        <div class="input-group">
+            <label for="linkedin">LinkedIn</label>
+            <input type="text" id="linkedin" name="linkedin" th:value="${card.linkedin}" placeholder="LinkedIn URL">
+        </div>
+
+        <div class="input-group">
+            <label for="notion">Notion</label>
+            <input type="text" id="notion" name="notion" th:value="${card.notion}" placeholder="Notion URL">
+        </div>
+
+        <div class="input-group">
+            <label for="certification">자격증</label>
+            <input type="text" id="certification" name="certification" th:value="${card.certification}" placeholder="자격증">
+        </div>
+
+        <div class="input-group">
+            <label for="extra">기타</label>
+            <input type="text" id="extra" name="extra" th:value="${card.extra}" placeholder="기타 정보">
+        </div>
+
+        <div class="github-settings">
+            <h3>GitHub 추가 설정</h3>
+            <div class="checkbox-group">
+                <input type="checkbox" id="tech-stack" name="techStack" th:checked="${card.techStack}">
+                <label for="tech-stack">기술 스택</label>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="repository" name="repository" th:checked="${card.repository}">
+                <label for="repository">레포지토리</label>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="contributions" name="contributions" th:checked="${card.contributions}">
+                <label for="contributions">잔디</label>
+            </div>
+        </div>
+
+        <button type="submit" class="submit-button">저장</button>
+    </form>
+</div>
+
+<!-- 네비게이션 바 -->
+<div th:replace="~{nav-bar :: navBar}"></div>
+
+</body>
+</html>

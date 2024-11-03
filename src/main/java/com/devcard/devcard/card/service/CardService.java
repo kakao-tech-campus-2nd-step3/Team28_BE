@@ -8,6 +8,8 @@ import com.devcard.devcard.card.entity.Card;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class CardService {
 
@@ -36,6 +38,14 @@ public class CardService {
         Card card = cardRepository.findById(cardId)
                 .orElseThrow(() -> new CardNotFoundException("해당 명함을 찾을 수 없습니다."));
         return CardResponseDto.fromEntity(card);
+    }
+
+    @Transactional
+    public List<CardResponseDto> getCards() {
+        List<Card> cards = cardRepository.findAll();
+        return cards.stream()
+                .map(CardResponseDto::fromEntity)
+                .toList();
     }
 
     @Transactional

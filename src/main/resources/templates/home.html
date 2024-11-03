@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Business Card</title>
-    <link rel="stylesheet" th:href="@{/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/home.css}">
 </head>
 <body>
 <div class="container">
@@ -24,24 +24,9 @@
         </div>
     </div>
 </div>
-<div class="nav-bar">
-    <div class="nav-item active">
-        <img th:src="@{/images/mycard-icon.png}" alt="My Card">
-        <p>MyCard</p>
-    </div>
-    <div class="nav-item">
-        <img th:src="@{/images/wallet-icon.png}" alt="Wallet">
-        <p>Wallet</p>
-    </div>
-    <div class="nav-item">
-        <img th:src="@{/images/chat-icon.png}" alt="Chat">
-        <p>Chats</p>
-    </div>
-    <div class="nav-item">
-        <img th:src="@{/images/mypage-icon.png}" alt="My Page">
-        <p>MyPage</p>
-    </div>
-</div>
+
+<!-- NavBar 포함 -->
+<div th:replace="nav-bar :: navBar"></div>
 
 <script th:src="@{/script.js}"></script>
 </body>

@@ -21,11 +21,6 @@ public class OauthService extends DefaultOAuth2UserService {
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException{
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
-//        System.out.println("userRequest:"+userRequest);
-//        System.out.println("getClientRegistraion:"+userRequest.getClientRegistration());  //client에 대한 정보들이 받아짐
-//        System.out.println("getAccessToken:"+userRequest.getAccessToken());
-//        System.out.println("getAttributes:"+super.loadUser(userRequest).getAttributes()); //유저 정보를 받아옴
-
         Map<String, Object> attributes = oAuth2User.getAttributes();
         Integer githubIdInt = (Integer) attributes.get("id");
         String githubId = String.valueOf(githubIdInt);
@@ -46,6 +41,6 @@ public class OauthService extends DefaultOAuth2UserService {
             memberRepository.save(newMember);
         }
 
-        return super.loadUser(userRequest);
+        return oAuth2User;
     }
 }

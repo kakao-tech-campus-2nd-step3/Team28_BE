@@ -14,7 +14,7 @@ public class ChatRoomListResponse {
         long id, List<String> participants, String lastMessage,
         LocalDateTime lastMessageTime
     ) {
-        this.id = "msg_" + id;
+        this.id = "room_" + id;
         this.participants = participants;
         this.lastMessage = lastMessage;
         this.lastMessageTime = lastMessageTime;

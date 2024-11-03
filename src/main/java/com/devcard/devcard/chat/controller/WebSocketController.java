@@ -22,7 +22,7 @@ public class WebSocketController implements WebSocketConfigurer {
     }
 
     /**
-     * WebSocket 연결 테스트를 위한 엔드포인트
+     * WebSocket 연결을 위한 엔드포인트
      */
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry webSocketHandlerRegistry) {

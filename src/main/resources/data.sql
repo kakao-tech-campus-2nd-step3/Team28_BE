@@ -25,4 +25,5 @@ INSERT INTO chat_room_participants (chat_room_id, participants_id) VALUES
 
 -- 명함(Card) 테이블에 예시 데이터 추가
 INSERT INTO card (github_id, name, company, position, email, phone, profile_picture, bio) VALUES
-    ('hong-gildong', '홍길동', 'DevCompany', '백엔드 개발자', 'hong@example.com', '010-1234-5678', 'profile.jpg', '열정적인 개발자입니다.');
+    ('hong-gildong', '어피치', 'DevCompany', '백엔드 개발자', 'hong@example.com', '010-1234-5678', 'profile.jpg', '열정적인 개발자입니다.'),
+    ('hong-gildong', '춘식이', 'kakaoCompany', '백엔드 주니어 개발자', 'chun@kakaoTech.com', '010-7894-456', 'profile.jpg', '소통하는 개발자입니다.');

@@ -31,14 +31,16 @@ public class SecurityConfig {
                             "/css/**",
                             "/js/**",
                             "/images/**",
-                            "/h2-console/**"
+                            "/h2-console/**",
+                            "/walletList"
                     ).permitAll();
                     // 그 외의 모든 요청은 인증 필요
                     auth.anyRequest().authenticated();
                 })
                 .oauth2Login(oauth -> oauth
                         .loginPage("/login") // 커스텀 로그인 페이지 경로 설정
-                        .defaultSuccessUrl("/home") // 로그인 성공 후 이동할 경로
+//                        .defaultSuccessUrl("/home") // 로그인 성공 후 이동할 경로
+                        .defaultSuccessUrl("/redirect") // 로그인 성공 후 이동할 경로
                         .userInfoEndpoint(userInfo ->
                                 userInfo.userService(oauthService)
                         )

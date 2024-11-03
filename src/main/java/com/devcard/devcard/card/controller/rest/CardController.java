@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/cards")
@@ -34,6 +35,12 @@ public class CardController {
     @GetMapping("/{id}")
     public ResponseEntity<CardResponseDto> getCard(@PathVariable Long id) {
         CardResponseDto responseDto = cardService.getCard(id);
+        return ResponseEntity.ok(responseDto);
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<CardResponseDto>> getCards() {
+        List<CardResponseDto> responseDto = cardService.getCards();
         return ResponseEntity.ok(responseDto);
     }
 
