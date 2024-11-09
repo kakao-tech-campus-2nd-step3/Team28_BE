@@ -1,8 +1,11 @@
 package com.devcard.devcard.card.entity;
 
+import com.devcard.devcard.auth.entity.Member;
 import com.devcard.devcard.card.dto.CardRequestDto;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "card")
@@ -12,15 +15,17 @@ public class Card {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String githubId;
-    private String name;
+    @OneToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    @ManyToMany(mappedBy = "cards")
+    private List<Group> groups = new ArrayList<>();
+
     private String company;
     private String position;
-    private String email;
     private String phone;
-    private String profilePicture;
     private String bio;
-
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -28,28 +33,26 @@ public class Card {
     protected Card() {
     }
 
-    // 빌더 클래스
+    // 빌더 패턴을 위한 생성자
+    private Card(Builder builder) {
+        this.member = builder.member;
+        this.company = builder.company;
+        this.position = builder.position;
+        this.phone = builder.phone;
+        this.bio = builder.bio;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
     public static class Builder {
-        private String githubId;
-        private String name;
+        private final Member member;
         private String company;
         private String position;
-        private String email;
         private String phone;
-        private String profilePicture;
         private String bio;
 
-        public Builder() {
-        }
-
-        public Builder githubId(String githubId) {
-            this.githubId = githubId;
-            return this;
-        }
-
-        public Builder name(String name) {
-            this.name = name;
-            return this;
+        public Builder(Member member) {
+            this.member = member;
         }
 
         public Builder company(String company) {
@@ -62,18 +65,8 @@ public class Card {
             return this;
         }
 
-        public Builder email(String email) {
-            this.email = email;
-            return this;
-        }
-
         public Builder phone(String phone) {
             this.phone = phone;
-            return this;
-        }
-
-        public Builder profilePicture(String profilePicture) {
-            this.profilePicture = profilePicture;
             return this;
         }
 
@@ -87,43 +80,27 @@ public class Card {
         }
     }
 
-    // 빌더 사용 생성자
-    private Card(Builder builder) {
-        this.githubId = builder.githubId;
-        this.name = builder.name;
-        this.company = builder.company;
-        this.position = builder.position;
-        this.email = builder.email;
-        this.phone = builder.phone;
-        this.profilePicture = builder.profilePicture;
-        this.bio = builder.bio;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
-    }
-
     // Getter
     public Long getId() { return id; }
-    public String getGithubId() { return githubId; }
-    public String getName() { return name; }
+    public Member getMember() { return member; }
     public String getCompany() { return company; }
     public String getPosition() { return position; }
-    public String getEmail() { return email; }
     public String getPhone() { return phone; }
-    public String getProfilePicture() { return profilePicture; }
     public String getBio() { return bio; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public List<Group> getGroups() { return groups; }
+
+    public void setGroups(List<Group> groups) {
+        this.groups = groups;
+    }
 
     // DTO 기반 업데이트 메서드
     public void updateFromDto(CardRequestDto dto) {
-        if (dto.getName() != null) this.name = dto.getName();
         if (dto.getCompany() != null) this.company = dto.getCompany();
         if (dto.getPosition() != null) this.position = dto.getPosition();
-        if (dto.getEmail() != null) this.email = dto.getEmail();
         if (dto.getPhone() != null) this.phone = dto.getPhone();
-        if (dto.getGithubId() != null) this.githubId = dto.getGithubId();
         if (dto.getBio() != null) this.bio = dto.getBio();
-        if (dto.getProfilePicture() != null) this.profilePicture = dto.getProfilePicture();
         this.updatedAt = LocalDateTime.now();
     }
 }

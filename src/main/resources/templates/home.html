@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Business Card</title>
+    <link rel="stylesheet" th:href="@{/css/global.css}">
     <link rel="stylesheet" th:href="@{/css/home.css}">
 </head>
 <body>
@@ -26,7 +27,7 @@
 </div>
 
 <!-- NavBar 포함 -->
-<div th:replace="nav-bar :: navBar"></div>
+<div th:replace="~{/nav-bar :: navBar}"></div>
 
 <script th:src="@{/script.js}"></script>
 </body>

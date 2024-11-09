@@ -11,7 +11,7 @@
 /* 검색 영역 */
 .search-container {
   width: 90%;
-  margin: 0 auto;
+  margin: 0 auto 1rem;
   border-radius: 1.2rem;
   padding: 0.5rem;
   display: flex;
@@ -21,12 +21,22 @@
 
 .search-container label {
   margin-left: 0.5rem;
-  color: #888;
+  color: var(--pantone-877c);
 }
 
 .search-container input {
+  width: 100%;
   font-size: 1rem;
   border: none;
   background: transparent;
   margin-left: 1rem;
 }
+
+.search-container input:focus {
+  outline: none;
+}
+
+.highlight {
+  background-color: var(--cnu-yellow);
+}
+

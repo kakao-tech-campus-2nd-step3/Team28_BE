@@ -26,7 +26,8 @@ public class SecurityConfig {
                             "/",
                             "/home",
                             "/login",
-                            "/cards/**",
+                            "/cards",
+                            "/cards/{id}",
                             "/oauth2/**",
                             "/css/**",
                             "/js/**",
@@ -39,7 +40,6 @@ public class SecurityConfig {
                 })
                 .oauth2Login(oauth -> oauth
                         .loginPage("/login") // 커스텀 로그인 페이지 경로 설정
-//                        .defaultSuccessUrl("/home") // 로그인 성공 후 이동할 경로
                         .defaultSuccessUrl("/redirect") // 로그인 성공 후 이동할 경로
                         .userInfoEndpoint(userInfo ->
                                 userInfo.userService(oauthService)

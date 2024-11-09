@@ -1,5 +1,6 @@
 package com.devcard.devcard.card.dto;
 
+import com.devcard.devcard.auth.entity.Member;
 import com.devcard.devcard.card.entity.Card;
 
 import java.time.LocalDateTime;
@@ -47,16 +48,17 @@ public class CardResponseDto {
     public LocalDateTime getUpdatedAt() { return updatedAt; }
 
     public static CardResponseDto fromEntity(Card card) {
+        Member member = card.getMember();
         return new CardResponseDto(
                 card.getId(),
-                card.getName(),
+                member.getUsername(),
                 card.getCompany(),
                 card.getPosition(),
-                card.getEmail(),
+                member.getEmail(),
                 card.getPhone(),
-                card.getGithubId(),
+                member.getGithubId(),
                 card.getBio(),
-                card.getProfilePicture(),
+                member.getProfileImg(),
                 card.getCreatedAt(),
                 card.getUpdatedAt()
         );

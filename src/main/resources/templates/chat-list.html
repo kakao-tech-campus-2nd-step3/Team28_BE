@@ -33,12 +33,36 @@
 
     <!-- 채팅 목록 가져오기 -->
     <div id="chat-list">
-    <!-- JS로 채팅과 연동 -->
+      <!-- sample 1 -->
+<!--      <div class="chat-item">-->
+<!--        &lt;!&ndash; 이미지 &ndash;&gt;-->
+<!--        <div class="chat-image">-->
+<!--          <img th:src="@{/images/temp_chat_user_image.png}" alt="User Avatar">-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash; 이름과 내용 &ndash;&gt;-->
+<!--        <div class="chat-info">-->
+<!--          <span class="chat-name">John Doe</span>-->
+<!--          <p class="chat-message">Hello, let's discuss the project details.!</p>-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash; 시간 &ndash;&gt;-->
+<!--        <div class="chat-time">-->
+<!--          <span>2024-09-05 12:30</span>-->
+<!--        </div>-->
+<!--      </div>-->
     </div>
   </div>
 
   <!-- 하단 네비게이션 바 -->
   <div th:replace="nav-bar :: navBar"></div>
+
+  <!-- 전달받은 데이터를 관리 -->
+  <script>
+    const memberId = [[${memberId}]];
+    const nickname = '[[${nickname}]]';
+  </script>
 </body>
+
 
 </html>

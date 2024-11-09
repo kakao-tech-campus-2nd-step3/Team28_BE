@@ -3,7 +3,6 @@ package com.devcard.devcard.auth.model;
 import com.devcard.devcard.auth.entity.Member;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -40,4 +39,6 @@ public class OauthMemberDetails implements OAuth2User {
     public String getName() {
         return member.getId()+"";
     }
+
+    public Member getMember() { return member; }
 }

@@ -1,20 +1,28 @@
 <div th:fragment="navBar">
     <div class="nav-bar">
         <div class="nav-item" data-page="home">
-            <img th:src="@{/images/mycard-icon.png}" alt="My Card">
-            <p>MyCard</p>
+            <a th:href="@{/home}">
+                <img th:src="@{/images/card.svg}" alt="My Card">
+                <p>MyCard</p>
+            </a>
         </div>
         <div class="nav-item" data-page="wallet">
-            <img th:src="@{/images/wallet-icon.png}" alt="Wallet">
-            <p>Wallet</p>
+            <a th:href="@{/wallet-list}">
+                <img th:src="@{/images/wallet.svg}" alt="Wallet">
+                <p>Wallet</p>
+            </a>
         </div>
         <div class="nav-item" data-page="chats">
-            <img th:src="@{/images/chat-icon.png}" alt="Chat">
-            <p>Chats</p>
+            <a th:href="@{/chats}">
+                <img th:src="@{/images/chat.svg}" alt="Chat">
+                <p>Chats</p>
+            </a>
         </div>
         <div class="nav-item" data-page="mypage">
-            <img th:src="@{/images/mypage-icon.png}" alt="My Page">
-            <p>MyPage</p>
+            <a th:href="@{/mypage}">
+                <img th:src="@{/images/person.svg}" alt="My Page">
+                <p>MyPage</p>
+            </a>
         </div>
     </div>
 </div>

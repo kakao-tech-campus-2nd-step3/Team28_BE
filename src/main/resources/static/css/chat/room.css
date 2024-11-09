@@ -1,5 +1,6 @@
 div.header > span {
-  color: #0066ff;
+  cursor: pointer;
+  color: var(--cnu-light-blue);
   position: absolute;
   left: 2rem;
 }
@@ -11,14 +12,6 @@ div.header > span {
   flex-direction: column;
 }
 
-/*.header {*/
-/*  background-color: #f1f1f1;*/
-/*  padding: 10px;*/
-/*  display: flex;*/
-/*  align-items: center;*/
-/*  gap: 10px;*/
-/*}*/
-
 .chat-message {
   flex: 1;
   padding: 10px;
@@ -28,22 +21,30 @@ div.header > span {
   gap: 10px;
 }
 
-.message {
+.rightMessage {
   max-width: 80%;
   padding: 10px;
   border-radius: 10px;
   font-size: 14px;
   display: inline-block;
+  background-color: var(--cnu-light-blue);
+}
+
+.leftMessage {
+  max-width: 80%;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 14px;
+  display: inline-block;
+  background-color: white;
 }
 
 .left .message-content {
-  background-color: #f1f1f1;
   color: #000;
 }
 
 .right .message-content {
-  background-color: #0066ff;
-  color: #fff;
+  color: white;
 }
 
 .left {
@@ -56,9 +57,16 @@ div.header > span {
 
 .sender {
   font-size: 12px;
+  color: white;
+  margin-bottom: 3px;
+}
+
+.customer {
+  font-size: 12px;
   color: #888;
   margin-bottom: 3px;
 }
+
 
 .input-message {
   display: flex;
@@ -76,19 +84,8 @@ input[type="text"] {
 }
 
 div.input-message > span {
-  color: #0066ff;
+  cursor: pointer;
+  color: var(--cnu-light-blue);
   font-size: 1.8rem;
   margin: 0 0.2rem 0 1rem;
 }
-
-/*button {*/
-/*  background-color: #0066ff;*/
-/*  border: none;*/
-/*  color: #fff;*/
-/*  font-size: 20px;*/
-/*  margin-left: 10px;*/
-/*  border-radius: 50%;*/
-/*  width: 36px;*/
-/*  height: 36px;*/
-/*  cursor: pointer;*/
-/*}*/

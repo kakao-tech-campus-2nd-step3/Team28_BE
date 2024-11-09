@@ -39,21 +39,8 @@
 <div class="template-container">
     <p>잠시만 기다려 주세요...</p>
 </div>
-<script>
-    fetch('/register', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-        .then(response => response.json())
-        .then(data => {
-            window.location.href = "/home";
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            window.location.href = "/login"; // 오류 발생 시 /login으로 redirect
-        });
-</script>
+
+<script th:src="@{/js/oauth/redirect.js}"></script>
+
 </body>
 </html>

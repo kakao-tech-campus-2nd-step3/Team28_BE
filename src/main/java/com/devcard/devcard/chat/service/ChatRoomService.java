@@ -2,6 +2,7 @@ package com.devcard.devcard.chat.service;
 
 import static com.devcard.devcard.chat.util.Constants.CHAT_ROOM_NOT_FOUND;
 
+import com.devcard.devcard.auth.entity.Member;
 import com.devcard.devcard.chat.dto.ChatMessageResponse;
 import com.devcard.devcard.chat.dto.ChatRoomListResponse;
 import com.devcard.devcard.chat.dto.ChatRoomResponse;
@@ -10,7 +11,6 @@ import com.devcard.devcard.chat.dto.CreateRoomResponse;
 import com.devcard.devcard.chat.exception.room.ChatRoomNotFoundException;
 import com.devcard.devcard.chat.model.ChatMessage;
 import com.devcard.devcard.chat.model.ChatRoom;
-import com.devcard.devcard.chat.model.ChatUser;
 import com.devcard.devcard.chat.repository.ChatRepository;
 import com.devcard.devcard.chat.repository.ChatRoomRepository;
 import com.devcard.devcard.chat.repository.ChatUserRepository;
@@ -49,7 +49,7 @@ public class ChatRoomService {
      */
     public CreateRoomResponse createChatRoom(CreateRoomRequest createRoomRequest) {
         // jpa를 이용해 ChatUser 리스트 가져오기
-        List<ChatUser> participants = chatUserRepository.findByIdIn(createRoomRequest.getParticipantsId());
+        List<Member> participants = chatUserRepository.findByIdIn(createRoomRequest.getParticipantsId());
         ChatRoom chatRoom = new ChatRoom(participants, LocalDateTime.now()); // chatRoom생성
         chatRoomRepository.save(chatRoom); // db에 저장
         return makeCreateChatRoomResponse(chatRoom); // Response로 변환
@@ -65,6 +65,7 @@ public class ChatRoomService {
         return chatRoomRepository.findAll().stream().map(chatRoom -> new ChatRoomListResponse(
             chatRoom.getId(),
             chatRoom.getParticipantsName(),
+            chatRoom.getParticipantsId(),
             chatRoom.getLastMessage(),
             chatRoom.getLastMessageTime()
         )).toList();
@@ -83,6 +84,7 @@ public class ChatRoomService {
         return userChatRooms.stream().map(chatRoom -> new ChatRoomListResponse(
             chatRoom.getId(),
             chatRoom.getParticipantsName(),
+            chatRoom.getParticipantsId(),
             chatRoom.getLastMessage(),
             chatRoom.getLastMessageTime()
         )).collect(Collectors.toList());
@@ -111,14 +113,10 @@ public class ChatRoomService {
             ))
             .collect(Collectors.toList());
 
-        // 참가자 이름 조회
-        List<String> participants = chatRoom.getParticipants().stream()
-            .map(ChatUser::getName)
-            .collect(Collectors.toList());
-
         return new ChatRoomResponse(
             "room_" + chatRoomId,
-            participants,
+            chatRoom.getParticipantsName(),
+            chatRoom.getParticipantsId(),
             messageResponses
         );
     }

@@ -12,6 +12,7 @@
   <link rel="stylesheet" th:href="@{/css/global.css}">
   <link rel="stylesheet" th:href="@{/css/chat/global.css}">
   <link rel="stylesheet" th:href="@{/css/chat/room.css}">
+  <link rel="icon" href="data:,">
 
   <!-- JS -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -21,9 +22,10 @@
 <body>
   <div class="container">
     <div class="header">
-      <span class="material-symbols-outlined">arrow_back_ios</span>
-      <h2 class="title">상대방 이름 or ID</h2>
+      <span class="material-symbols-outlined" id="backButton">arrow_back_ios</span>
+      <h2 class="title" id="roomTitle">상대방 이름 or ID</h2>
     </div>
+
 
     <div class="chat-message" id="chatWindow">
     <!--메시지가 표시-->
@@ -31,9 +33,16 @@
 
     <div class="input-message">
       <input type="text" id="messageInput" placeholder="Type a message...">
-      <span class="material-symbols-outlined">send</span>
+      <span class="material-symbols-outlined" id="sendButton">send</span>
     </div>
+
   </div>
+
+  <!-- 전달받은 데이터를 관리 -->
+  <script>
+    const memberId = [[${memberId}]];
+    const nickname = '[[${nickname}]]';
+  </script>
 </body>
 
 </html>

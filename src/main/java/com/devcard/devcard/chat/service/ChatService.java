@@ -2,6 +2,9 @@ package com.devcard.devcard.chat.service;
 
 import static com.devcard.devcard.chat.util.Constants.CHAT_ROOM_NOT_FOUND;
 
+import com.devcard.devcard.auth.entity.Member;
+import com.devcard.devcard.auth.repository.MemberRepository;
+import com.devcard.devcard.chat.dto.ChatUserResponse;
 import com.devcard.devcard.chat.exception.room.ChatRoomNotFoundException;
 import com.devcard.devcard.chat.model.ChatMessage;
 import com.devcard.devcard.chat.model.ChatRoom;
@@ -11,6 +14,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -41,10 +45,12 @@ public class ChatService {
 
     private final ChatRepository chatRepository;
     private final ChatRoomRepository chatRoomRepository;
+    private final MemberRepository memberRepository;
 
-    public ChatService(ChatRepository chatRepository, ChatRoomRepository chatRoomRepository) {
+    public ChatService(ChatRepository chatRepository, ChatRoomRepository chatRoomRepository, MemberRepository memberRepository) {
         this.chatRepository = chatRepository;
         this.chatRoomRepository = chatRoomRepository;
+        this.memberRepository = memberRepository;
     }
 
     /**
@@ -70,6 +76,9 @@ public class ChatService {
         // 메시지 저장
         ChatMessage chatMessage = new ChatMessage(chatRoom, "user_" + userId, message, LocalDateTime.now());
         chatRepository.save(chatMessage);
+
+        // 마지막 메세지 변경
+        chatRoom.updateLastMessageAndLastMessageTime(message, LocalDateTime.now());
 
         // 채팅방에 연결된 모든 WebSocket 세션에 메시지 전송
         List<WebSocketSession> sessions = getChatRoomSessions(chatId);
@@ -97,7 +106,13 @@ public class ChatService {
                 session.sendMessage(new TextMessage(message));
                 return true;
             } catch (IOException e) {
-                logger.warn("메시지 전송 실패 (재시도 {}/{}): sessionId={}, message={}", i + 1, retries, session.getId(), message);
+                logger.warn(
+                    "메시지 전송 실패 (재시도 {}/{}): sessionId={}, message={}",
+                    i + 1,
+                    retries,
+                    session.getId(),
+                    message
+                );
             }
         }
         return false;
@@ -144,7 +159,7 @@ public class ChatService {
         JSONParser parser = new JSONParser();
         try {
             JSONObject jsonObject = (JSONObject) parser.parse(payload);
-            return jsonObject.getAsString("message");
+            return jsonObject.getAsString("content");
         } catch (ParseException e) {
             logger.error("payload에서 message 추출 실패: {}", payload, e);
             return null; // 예외 발생 시 null 반환
@@ -198,5 +213,11 @@ public class ChatService {
             logger.error("URI에서 {} 추출 실패: {}", paramName, uri, e);
             throw new IllegalArgumentException(paramName + " 추출 중 숫자 형식 오류");
         }
+    }
+
+    public ChatUserResponse getUserProfileById(String userId) {
+        Member member = memberRepository.findById(Integer.parseInt(userId))
+            .orElseThrow(() -> new IllegalArgumentException("멤버를 찾을 수 없습니다."));
+        return new ChatUserResponse(member.getNickname(), member.getProfileImg());
     }
 }

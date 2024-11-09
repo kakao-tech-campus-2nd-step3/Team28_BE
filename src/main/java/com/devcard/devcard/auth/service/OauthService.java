@@ -1,6 +1,7 @@
 package com.devcard.devcard.auth.service;
 
 import com.devcard.devcard.auth.entity.Member;
+import com.devcard.devcard.auth.model.OauthMemberDetails;
 import com.devcard.devcard.auth.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -14,6 +15,7 @@ import java.util.Map;
 
 @Service
 public class OauthService extends DefaultOAuth2UserService {
+
     @Autowired
     private MemberRepository memberRepository;
 
@@ -26,10 +28,10 @@ public class OauthService extends DefaultOAuth2UserService {
         String githubId = String.valueOf(githubIdInt);
 
         // 데이터베이스에 이미 등록된 사용자인지 확인
-        Member existingMember = memberRepository.findByGithubId(githubId);
-        if (existingMember == null) {
+        Member member = memberRepository.findByGithubId(githubId);
+        if (member == null) {
             // 사용자가 없으면 새로 저장
-            Member newMember = new Member(
+            member = new Member(
                     githubId,
                     (String) attributes.get("email"),
                     (String) attributes.get("avatar_url"),
@@ -38,9 +40,14 @@ public class OauthService extends DefaultOAuth2UserService {
                     "ROLE_USER",  // 기본 역할 설정
                     new Timestamp(System.currentTimeMillis())
             );
-            memberRepository.save(newMember);
+            memberRepository.save(member);
+        } else {
+            // 기존 회원 정보 업데이트
+            member.updateFromAttributes(attributes);
+            memberRepository.save(member);
         }
 
-        return oAuth2User;
+        // OauthMemberDetails 반환
+        return new OauthMemberDetails(member, attributes);
     }
 }

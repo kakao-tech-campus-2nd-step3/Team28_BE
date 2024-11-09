@@ -1,4 +1,21 @@
 /* General styles */
+:root {
+  /* CNU 메인 색상 코드 */
+  --cnu-dark-blue: rgb(0, 28, 84); /* PANTONE 655C: 헤더 등 주요 강조 색상 */
+  --cnu-sky-blue: rgb(0, 114, 188); /* PANTONE 2194C: 보조 강조 색상 */
+  --cnu-light-blue: rgb(0, 161, 228); /* PANTONE 2935C: 밝은 강조 및 백그라운드 색상 */
+  --cnu-yellow: rgb(253, 185, 19); /* PANTONE 116C: 경고 및 강조 요소 색상 */
+  --cnu-orange: rgb(247, 148, 29); /* PANTONE 144C: 알림 및 강조 요소 색상 */
+
+  /* CNU 보조 색상 코드 */
+  --pantone-877c: rgb(188, 190, 192); /* PANTONE 877C: 보조 요소 회색 */
+  --pantone-871c: rgb(179, 161, 119); /* PANTONE 871C: 강조 요소 금색 */
+  --pantone-blackc: rgb(0, 0, 0); /* PANTONE BlackC: 기본 검정색 */
+
+  /* 기존 사용 색상 코드 */
+  --background: #f5f5f5; /* 배경 색상 */
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -11,7 +28,7 @@ body {
   flex-direction: column;
   justify-content: space-between;
   height: 100vh;
-  background-color: #f5f5f5;
+  background-color: var(--background);
 }
 
 /* Navigation bar styles */
@@ -30,6 +47,14 @@ body {
   justify-content: center;
 }
 
+.nav-item a {
+  text-decoration: none; /* 밑줄 제거 */
+  color: inherit; /* 텍스트 색상 상속 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .nav-item img {
   width: 30px;
   height: 30px;
@@ -42,5 +67,5 @@ body {
 }
 
 .nav-item.active p {
-  color: #00bfff;
+  color: var(--cnu-light-blue);
 }

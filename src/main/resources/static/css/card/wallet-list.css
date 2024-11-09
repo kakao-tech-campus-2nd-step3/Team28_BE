@@ -1,0 +1,100 @@
+/* 상단 헤더 */
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    margin: 1rem 0 0.5rem 0;
+    font-size: 0.8rem;
+}
+
+/* 그룹 추가 */
+.group-add {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    padding: 0 70px;
+}
+
+.add-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    background-color: transparent;
+    border: 2px dashed #ccc;
+    border-radius: 15px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #999;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+    width: 100%;
+}
+
+.add-button:hover {
+    background-color: #e0e0e0;
+    color: #F7941D;
+}
+
+.plus-icon {
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+}
+
+/* 그룹 리스트 */
+.group-list {
+    /* background-color: white; */
+    /* border-radius: 10px; */
+    padding: 0 70px;
+    /* box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); */
+    margin: 0 auto 2rem auto;
+    width: 100%;
+    /* max-width: 400px; */
+}
+
+.group-item {
+    display: flex;
+    align-items: center;
+    padding: 13px;
+    margin: 15px 0;
+    background-color: #fafafa;
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
+.group-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.group-item:hover .group-name,
+.group-item:hover .group-count {
+    color: #0080FF;
+}
+
+.icon {
+    width: 40px;
+    height: 40px;
+    background-color: #e0e0e0;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 15px;
+}
+
+.group-name {
+    flex-grow: 1;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.group-count {
+    font-size: 0.9rem;
+    color: #666;
+}
