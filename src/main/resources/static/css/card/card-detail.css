@@ -1,150 +1,83 @@
-/* General styles */
-* {
+body {
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
-
-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100vh;
     background-color: #f5f5f5;
 }
 
-/* Header styling (like home.css) */
-.header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem; /* Increased padding */
-    margin: 0.5rem 0;
-    color: black;
-    font-family: Arial, sans-serif;
-}
-
-.title {
-    text-align: center;
-    font-size: 1.5rem; /* Increased font size for better emphasis */
-    margin-bottom: 20px;
-}
-
-/* Container for the main content */
 .container {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    flex-flow: column;
-}
-
-/* Card styling (like home.css) */
-.card {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    background-color: black;
-    color: white;
-    border-radius: 15px;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
     padding: 20px;
-    margin: 10px;
-    width: 90%;
-    max-width: 500px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Card content styling */
-.card-content {
-    flex: 1;
+.card {
+    background-color: #000;
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.card-content h3 {
-    font-size: 1.5rem;
+.card h2 {
+    font-size: 1.5em;
     margin-bottom: 10px;
 }
 
-.card-content p {
-    margin-bottom: 8px;
-    padding: 10px;
-}
-
-.card-content a {
-    color: #00bfff;
+.github-link {
+    color: #00aced;
     text-decoration: none;
 }
 
-.card-image img {
-    width: 100px;
-    height: auto;
-    border-radius: 8px;
-}
-
-/* Hover effect for the card */
-.card:hover {
-    transform: translateY(-5px); /* Slight lift on hover */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
-}
-
-/* Styling for GitHub link */
-.card .github-link {
-    color: #00bfff; /* Consistent color with the links */
-    text-decoration: none;
-}
-
-.card .github-link:hover {
+.github-link:hover {
     text-decoration: underline;
 }
 
-/* Share button styling */
 .share-button {
     margin-top: 20px;
-    padding: 10px 20px; /* More compact padding */
-    border-radius: 50px;
-    background-color: var(--cnu-dark-blue); /* Bright yellow button */
-    color: white;
+    padding: 15px;
+    border-radius: 50%;
+    background-color: #3b5998; /* Kakao 버튼 색상 */
+    color: #fff;
     border: none;
-    font-size: 1rem;
+    font-size: 1em;
     cursor: pointer;
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    text-transform: uppercase;
-    width: 100%;
-    max-width: 220px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Hover effect for share button */
 .share-button:hover {
-    background-color: var(--cnu-yellow);
-    transform: scale(1.1);
+    background-color: #2a427a;
 }
 
-.share-button:active {
-    transform: scale(1);
+.nav-bar {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    background-color: #fff;
+    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
 }
 
-/* Responsive design for smaller screens */
-@media (max-width: 480px) {
-    .card {
-        width: 95%;
-        padding: 20px;
-    }
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.9em;
+    cursor: pointer;
+}
 
-    .card h3 {
-        font-size: 1.3rem;
-    }
+.nav-item p {
+    margin-top: 5px;
+}
 
-    .card .github-link {
-        font-size: 0.9em;
-    }
-
-    .share-button {
-        padding: 12px 24px;
-        font-size: 1.1em;
-    }
+.nav-icon {
+    width: 24px;
 }
